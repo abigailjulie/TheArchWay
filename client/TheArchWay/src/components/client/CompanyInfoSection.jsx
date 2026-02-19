@@ -146,11 +146,12 @@ export default function CompanyInfoSection({
           </Form.Label>
           <Form.Control
             id="companyNumber"
-            type="text"
+            type="tel"
             placeholder="Company Number"
             value={companyNumber ?? ""}
             onChange={onCompanyNumberChanged}
             isInvalid={companyNumber && !validCompanyNumber}
+            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
             required
           />
           <Form.Control.Feedback type="invalid" className="px-2 mt-2" muted>

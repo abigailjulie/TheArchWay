@@ -62,11 +62,12 @@ export default function ClientInfoSection({ state, validation, clicked }) {
           </Form.Label>
           <Form.Control
             id="telephone"
-            type="text"
+            type="tel"
             placeholder="Telephone"
             value={telephone ?? ""}
             onChange={onTelephoneChanged}
             isInvalid={telephone && !validTelephone}
+            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
             required
           />
           <Form.Control.Feedback type="invalid" className="px-2 mt-2" muted>
