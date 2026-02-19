@@ -49,8 +49,8 @@ export default function ClientInfoSection({ state, validation, clicked }) {
             required
           />
           <Form.Control.Feedback type="invalid" className="px-2 mt-2" muted>
-            Password must be 4-12 characters and include letters, numbers, and
-            !@#$%.
+            Password must be 12-48 characters and include uppercase, lowercase,
+            numbers, and special characters (!@#$%).
           </Form.Control.Feedback>
         </Col>
       </Row>
