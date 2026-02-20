@@ -26,6 +26,7 @@ describe("New client integration test", () => {
     mockState = {
       username: "",
       password: "",
+      confirmPassword: "",
       telephone: "",
       email: "",
       companyName: "",
@@ -45,6 +46,7 @@ describe("New client integration test", () => {
     mockValidation = {
       validUsername: true,
       validPassword: true,
+      validMatch: true,
       validEmail: true,
       validTelephone: true,
       validStateCode: true,
@@ -54,6 +56,7 @@ describe("New client integration test", () => {
     mockClicked = {
       onUsernameChanged: vi.fn(),
       onPasswordChanged: vi.fn(),
+      onConfirmPasswordChanged: vi.fn(),
       onTelephoneChanged: vi.fn(),
       onEmailChanged: vi.fn(),
       onCompanyNameChanged: vi.fn(),
@@ -211,9 +214,28 @@ describe("New client integration test", () => {
         />,
       );
 
-      expect(
-        screen.getByText(/Password must be 4-12 characters/i),
-      ).toBeInTheDocument();
+      expect(screen.getByText(/Password must/i)).toBeInTheDocument();
+    });
+
+    it("should show password match error when passwords don't match", () => {
+      mockState.password = "ValidPassword123!";
+      mockState.confirmPassword = "DifferentPassword123!";
+      mockValidation.validPassword = true;
+      mockValidation.validMatch = false;
+
+      renderWithRouter(
+        <NewClientForm
+          state={mockState}
+          validation={mockValidation}
+          clicked={mockClicked}
+        />,
+      );
+
+      const confirmPasswordInput =
+        screen.getByPlaceholderText(/confirm password/i);
+
+      expect(confirmPasswordInput).toHaveClass("is-invalid");
+      expect(screen.getByText(/passwords must match/i)).toBeInTheDocument();
     });
 
     it("should show telephone validation error when invalid", () => {

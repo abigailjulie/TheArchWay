@@ -1,15 +1,21 @@
 import { Col, Form, Row } from "react-bootstrap";
 
 export default function ClientInfoSection({ state, validation, clicked }) {
-  const { username, password, telephone, email } = state;
+  const { username, password, confirmPassword, telephone, email } = state;
   const {
     onUsernameChanged,
     onPasswordChanged,
+    onConfirmPasswordChanged,
     onTelephoneChanged,
     onEmailChanged,
   } = clicked;
-  const { validUsername, validPassword, validEmail, validTelephone } =
-    validation;
+  const {
+    validUsername,
+    validPassword,
+    validMatch,
+    validEmail,
+    validTelephone,
+  } = validation;
 
   return (
     <>
@@ -51,6 +57,26 @@ export default function ClientInfoSection({ state, validation, clicked }) {
           <Form.Control.Feedback type="invalid" className="px-2 mt-2" muted>
             Password must be 12-48 characters and include uppercase, lowercase,
             numbers, and special characters (!@#$%).
+          </Form.Control.Feedback>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col className="mb-3">
+          <Form.Label htmlFor="confirm Password" visuallyHidden>
+            Confirm Password
+          </Form.Label>
+          <Form.Control
+            id="confirmPassword"
+            type="password"
+            placeholder="Confirm Password"
+            value={confirmPassword ?? ""}
+            onChange={onConfirmPasswordChanged}
+            isInvalid={confirmPassword && !validMatch}
+            required
+          />
+          <Form.Control.Feedback type="invalid" className="px-2 mt-2" muted>
+            Passwords must match.
           </Form.Control.Feedback>
         </Col>
       </Row>

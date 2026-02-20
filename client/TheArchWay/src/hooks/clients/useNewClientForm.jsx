@@ -21,6 +21,8 @@ export default function useNewClientForm() {
   const [validUsername, setValidUsername] = useState(false);
   const [password, setPassword] = useState("");
   const [validPassword, setValidPassword] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [validMatch, setValidMatch] = useState(false);
   const [roles, setRoles] = useState(["Client"]);
   const [telephone, setTelephone] = useState("");
   const [validTelephone, setValidTelephone] = useState(false);
@@ -43,6 +45,10 @@ export default function useNewClientForm() {
   useEffect(() => {
     setValidPassword(PWD_REGEX.test(password));
   }, [password]);
+
+  useEffect(() => {
+    setValidMatch(password === confirmPassword);
+  }, [password, confirmPassword]);
 
   useEffect(() => {
     setValidStateCode(STATE_REGEX.test(stateCode));
@@ -73,6 +79,10 @@ export default function useNewClientForm() {
 
   const onPasswordChanged = (e) => {
     setPassword(e.target.value);
+  };
+
+  const onConfirmPasswordChanged = (e) => {
+    setConfirmPassword(e.target.value);
   };
 
   const onRolesChanged = (e) => {
@@ -120,6 +130,7 @@ export default function useNewClientForm() {
       roles.length,
       validUsername,
       validPassword,
+      validMatch,
       validEmail,
       validTelephone,
       companyName,
@@ -179,6 +190,7 @@ export default function useNewClientForm() {
     state: {
       username,
       password,
+      confirmPassword,
       roles,
       telephone,
       email,
@@ -197,6 +209,7 @@ export default function useNewClientForm() {
     clicked: {
       onUsernameChanged,
       onPasswordChanged,
+      onConfirmPasswordChanged,
       onRolesChanged,
       onTelephoneChanged,
       onEmailChanged,
@@ -212,6 +225,7 @@ export default function useNewClientForm() {
     validation: {
       validUsername,
       validPassword,
+      validMatch,
       validStateCode,
       validEmail,
       validTelephone,
