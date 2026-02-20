@@ -28,6 +28,7 @@ connectDB();
 app.use(logger);
 
 app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 app.use(express.json());
 
@@ -63,6 +64,6 @@ mongoose.connection.on("error", (error) => {
   console.log(error);
   logEvents(
     `${error.no}: ${error.code}\t${error.syscall}\t${error.hostname}`,
-    "mongoErrLog.log"
+    "mongoErrLog.log",
   );
 });

@@ -11,12 +11,13 @@ const signUpLimiter = rateLimit({
   handler: (req, res, next, options) => {
     logEvents(
       `Too Many Requests: ${options.message.message}\t ${req.method}\t ${req.url}\t ${req.headers.origins}`,
-      "errLog.log"
+      "errLog.log",
     );
     res.status(options.statusCode).send(options.message);
   },
   standardHeaders: true,
   legacyHeaders: false,
+  skip: (req) => req.method === "OPTIONS",
 });
 
 export default signUpLimiter;

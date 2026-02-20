@@ -62,7 +62,7 @@ export default function useNewClientForm() {
 
   const formatAddress = () => {
     const base = `${address1.trim()}`;
-    const line2 = address2.trim() && `${address2.trim()}`;
+    const line2 = address2.trim() ? `, ${address2.trim()}` : "";
     const location = `${city.trim()}, ${stateCode.trim()} ${zip.trim()}`;
     return `${base} ${line2}, ${location}`;
   };
@@ -78,7 +78,7 @@ export default function useNewClientForm() {
   const onRolesChanged = (e) => {
     const values = Array.from(
       e.target.selectedOptions,
-      (option) => option.value
+      (option) => option.value,
     );
     setRoles(values);
   };
@@ -120,12 +120,14 @@ export default function useNewClientForm() {
       roles.length,
       validUsername,
       validPassword,
+      validEmail,
+      validTelephone,
       companyName,
       address1,
       city,
       validStateCode,
       zip,
-      companyNumber,
+      validCompanyNumber,
     ].every(Boolean) && !isLoading;
 
   const onSaveClientClicked = async (e) => {
@@ -153,8 +155,8 @@ export default function useNewClientForm() {
         },
       }).unwrap();
 
-      showToast.success(result?.message || `Client ${username} created!`, {
-        toastId: "submit-client-success",
+      navigate("/login", {
+        state: { message: result?.message || "Account created successfully!" },
       });
     } catch (error) {
       const message =

@@ -1,9 +1,23 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import { showToast } from "../../utils/showToast";
 import LoginForm from "../../components/login/LoginForm";
 import useTitle from "../../hooks/useTitle";
 
 export default function Login() {
   useTitle("The ArchWay | Login");
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.message) {
+      showToast.success(location.state.message, {
+        toastId: "registration-success",
+      });
+
+      window.history.replaceState({}, document.title);
+    }
+  }, [location]);
   return (
     <section className="d-flex flex-column justify-content-center align-items-center min-vh-100 text-center px-3">
       <header>

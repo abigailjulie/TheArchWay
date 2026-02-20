@@ -4,6 +4,10 @@ import clientsController from "../controllers/clientsController.js";
 import signUpLimiter from "../middleware/signUpLimiter.js";
 import verifyJWT from "../middleware/verifyJWT.js";
 
+router.options("/", (req, res) => {
+  res.sendStatus(200);
+});
+
 router.post("/", signUpLimiter, clientsController.createNewClient);
 
 router.use(verifyJWT);
