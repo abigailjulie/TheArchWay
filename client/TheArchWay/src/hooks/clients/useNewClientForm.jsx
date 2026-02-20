@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useAddNewClientMutation } from "../../features/clients/clientsApiSlice";
 import { useNavigate } from "react-router-dom";
 import { ROLES } from "../../config/roles";
+import { showToast } from "../../utils/showToast";
 import {
   CLIENT_REGEX,
   PWD_REGEX,
@@ -9,7 +10,6 @@ import {
   PHONE_REGEX,
   EMAIL_REGEX,
 } from "../../utils/regex";
-import { showToast } from "../../utils/showToast";
 
 export default function useNewClientForm() {
   const [addNewClient, { isLoading, isSuccess, isError, error, reset }] =
@@ -155,9 +155,11 @@ export default function useNewClientForm() {
         },
       }).unwrap();
 
-      navigate("/login", {
-        state: { message: result?.message || "Account created successfully!" },
+      showToast.success(result?.message || "Account created successfully!", {
+        toastId: "registration-success",
       });
+
+      navigate("/login");
     } catch (error) {
       const message =
         error?.data?.message || "Form is incomplete or contains invalid data.";
