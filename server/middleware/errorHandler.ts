@@ -1,15 +1,26 @@
 import { logEvents } from "./logger.js";
+import { Request, Response, NextFunction } from "express";
 
 const errLog = {
   log: "errLog.txt",
 };
 
-const errorHandler = (err, req, res, next) => {
+interface ErrorWithDetails extends Error {
+  method?: string;
+  url?: string;
+}
+
+const errorHandler = (
+  err: ErrorWithDetails,
+  req: Request,
+  res: Response,
+  _next: NextFunction,
+) => {
   const origin = req.headers.origin;
 
   logEvents(
     `${err.name}:${err.message}\t${err.method}\t${err.url}\t${origin}`,
-    errLog.log
+    errLog.log,
   );
   console.log(`${err.stack}`);
 
