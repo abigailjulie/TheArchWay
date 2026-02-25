@@ -4,9 +4,9 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon --exec node --loader ts-node/esm server.ts",
-    "build": "tsc",
-    "start": "node dist/server.js"
+    "dev": "nodemon --exec tsx server/server.ts",
+    "build": "tsc -p server",
+    "start": "node server/dist/server.js"
   },
   "keywords": [],
   "author": "",
@@ -36,6 +36,7 @@
     "@types/node": "^25.3.0",
     "nodemon": "^3.1.14",
     "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }
 }
