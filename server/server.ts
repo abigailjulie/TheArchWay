@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import "express-async-errors";
-import express from "express";
+import express, { Request, Response } from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 import { logger, logEvents } from "./middleware/logger.js";
@@ -42,7 +42,7 @@ app.use("/clients", clientRoutes);
 
 app.use("/projects", projectRoutes);
 
-app.all("*", (req, res) => {
+app.all("*", (req: Request, res: Response) => {
   res.status(404);
   if (req.accepts("html")) {
     res.sendFile(path.join(__dirname, "..", "views", "404.html"));
@@ -60,7 +60,7 @@ mongoose.connection.once("open", () => {
   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 });
 
-mongoose.connection.on("error", (error) => {
+mongoose.connection.on("error", (error: any) => {
   console.log(error);
   logEvents(
     `${error.no}: ${error.code}\t${error.syscall}\t${error.hostname}`,
