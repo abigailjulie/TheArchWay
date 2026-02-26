@@ -5,11 +5,15 @@ import fsPromises from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import { Request, Response, NextFunction } from "express";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const logEvents = async (message, logfileName) => {
+const logEvents = async (
+  message: string,
+  logfileName: string,
+): Promise<void> => {
   const dateTime = format(new Date(), "yyyyMMdd\tHH:mm:ss");
   const logItem = `${dateTime}\t${uuid()}\t${message}\n`;
 
@@ -25,16 +29,16 @@ const logEvents = async (message, logfileName) => {
   }
 };
 
-const reqLog = {
+const reqLog: { log: string } = {
   log: "reqLog.txt",
 };
 
 const allowedOriginsToIgnore = ["http://localhost:5000"];
 
-const logger = (req, res, next) => {
+const logger = (req: Request, res: Response, next: NextFunction) => {
   const origin = req.headers.origin;
 
-  if (!allowedOriginsToIgnore.includes(origin)) {
+  if (origin && !allowedOriginsToIgnore.includes(origin)) {
     logEvents(`${req.method}\t${req.url}\t${origin}`, reqLog.log);
     console.log(`${req.method} ${req.path}`);
   }
